@@ -66,7 +66,7 @@ export default class MutationTestExecutor {
       .toPromise(Promise);
   }
 
-  private earlyResult = ([transpiledMutant, sandbox]: [TranspiledMutant, Sandbox]): [TranspiledMutant, Sandbox, MutantResult | null] => {
+  private readonly earlyResult = ([transpiledMutant, sandbox]: [TranspiledMutant, Sandbox]): [TranspiledMutant, Sandbox, MutantResult | null] => {
     if (transpiledMutant.transpileResult.error) {
       if (this.log.isDebugEnabled()) {
         this.log.debug(`Transpile error occurred: "${transpiledMutant.transpileResult.error}" during transpiling of mutant ${transpiledMutant.mutant.toString()}`);
@@ -85,7 +85,7 @@ export default class MutationTestExecutor {
     }
   }
 
-  private runInSandbox = ([transpiledMutant, sandbox, earlyResult]: [TranspiledMutant, Sandbox, MutantResult | null]):
+  private readonly runInSandbox = ([transpiledMutant, sandbox, earlyResult]: [TranspiledMutant, Sandbox, MutantResult | null]):
     Promise<{ sandbox: Sandbox, result: MutantResult }> => {
     if (earlyResult) {
       return Promise.resolve({ sandbox, result: earlyResult });
@@ -95,7 +95,7 @@ export default class MutationTestExecutor {
     }
   }
 
-  private collectMutantResult = (mutant: TestableMutant, runResult: RunResult) => {
+  private readonly collectMutantResult = (mutant: TestableMutant, runResult: RunResult) => {
     const status: MutantStatus = mutantState(runResult);
     const testNames = runResult.tests
       .filter(t => t.status !== TestStatus.Skipped)
